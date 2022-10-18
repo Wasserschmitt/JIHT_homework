@@ -1,10 +1,8 @@
 module TrianglesSolving
 
-
-
 using LinearAlgebra
 
-
+export backwardsub, forwardsub
 
 function forwardsub(L, b)
 	len = length(b)
@@ -14,7 +12,7 @@ function forwardsub(L, b)
 		x[i] = (b[i] - L[i][:(i-1)]*x[:(i-1)])/L[i][i]
 	end
 	LowerMatrixChecking(U) && return x
-	error('Неподходящая матрица')
+	error("Неподходящая матрица")
 
 end
 
@@ -24,10 +22,10 @@ function backwardsub(U, b)
 	x = Vector{Float64}(len)
 	x[len] = b[len]/L[len][len]
 	for i in (len-1):-1:1
-		x[i] = (b[i] - L[i][(i+1):]*x[(i+1):])/L[i][i]
+		x[i] = (b[i] - L[i][(i+1):len]*x[(i+1):len])/L[i][i]
 	end
 	UpperMatrixChecking(U) && return x
-	error('Неподходящая матрица')
+	error("Неподходящая матрица")
 end
 
 
@@ -39,7 +37,7 @@ function forwardsub!(x, L, b)
 			x[i] = (b[i] - L[i][:(i-1)]*x[:(i-1)])/L[i][i]
 		end
 	else
-		error('Неподходящая матрица')
+		error("Неподходящая матрица")
 	end
 	
 end
@@ -50,10 +48,10 @@ function backwardsub!(x, U, b)
 		len = length(x)
 		x[len] = b[len]/L[len][len]
 		for i in (len-1):-1:1
-			x[i] = (b[i] - L[i][(i+1):]*x[(i+1):])/L[i][i]
+			x[i] = (b[i] - L[i][(i+1):len]*x[(i+1):len])/L[i][i]
 		end
 	else
-		error('Неподходящая матрица')
+		error("Неподходящая матрица")
 	end
 
 end
@@ -78,8 +76,10 @@ function IsUpperTriangle(U)
 	u_size = size(U, 1)
 	if u_size == 1
 		return true
+	end
 	for i in 1:u_size
-		return (zeros(u_size - 1) == U[2:][1]) && IsUpperTriangle(U[2:][2:])
+		return (zeros(u_size - 1) == U[2:len][1]) && IsUpperTriangle(U[2:len][2:len])
+	end
 end
 
 
@@ -87,8 +87,10 @@ function IsLowerTriangle(L)
 	l_size = size(L, 1)
 	if l_size == 1
 		return true
+	end
 	for i in 1:l_size
-		return (zeros(l_size - 1) == L[2:][l_size]) && IsLowerTriangle(U[:(l_size-1)][:(l_size-1)])
+		return (zeros(l_size - 1) == L[2:len][l_size]) && IsLowerTriangle(U[:(l_size-1)][:(l_size-1)])
+	end
 end
 
 

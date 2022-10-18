@@ -1,6 +1,7 @@
 using LinearAlgebra
-using TridiagonalSolving
-using TrianglesSolving
+
+include("task_361.jl")
+include("task_362.jl")
 
 
 function solution_a()
@@ -28,5 +29,3 @@ function solution_c()
 	x = backwardsub(U, forwardsub(L, b))
 	return x, b - C*x
 end
-	
-	
