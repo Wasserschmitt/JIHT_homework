@@ -1,0 +1,4 @@
+name = "gas_struct"
+uuid = "be5af1b7-9aa4-4b2b-adad-2ebdd0e7c001"
+authors = ["Wasserschmitt <iushin.kv@phystech.edu>"]
+version = "0.1.0"
