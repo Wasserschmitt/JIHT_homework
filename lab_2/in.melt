@@ -1,0 +1,40 @@
+variable N loop 90
+
+units		lj
+atom_style	atomic
+
+lattice		bcc 1
+region		box block 0 10 0 10 0 10
+create_box	1 box
+create_atoms    1 random 60 6353 box
+mass		1 1.0
+
+velocity	all create 1 87287
+
+pair_style	lj/cut 10
+pair_coeff	1 1 1.0 1.0 10
+
+neighbor	2.0 bin
+neigh_modify	every 10 delay 0 check no
+
+minimize 	0.0 1.0e-5 100 1000
+
+label loop
+variable N_Temp equal 1+0.1*($N-1)
+
+fix		1 all nvt temp ${N_Temp} ${N_Temp} 0.1
+
+thermo		500
+run		2500
+
+
+variable        step equal step
+variable        ener equal etotal
+fix             print_pe all print 100 "${step} ${ener}" file energy.${N}.log title "Step    Eng" screen no
+run		20000
+
+unfix		1
+
+variable N_Temp delete
+next N
+jump SELF loop
