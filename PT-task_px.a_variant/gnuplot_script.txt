@@ -1,0 +1,22 @@
+set view map scale 1
+set style data lines
+set xtics border in scale 0,0 mirror norotate  autojustify
+set ytics border in scale 0,0 mirror norotate  autojustify
+set ztics border in scale 0,0 nomirror norotate  autojustify
+unset cbtics
+set rtics axis in scale 0,0 nomirror norotate  autojustify
+set title "Px.a variant" 
+set xrange [ 0 : 1 ] noreverse nowriteback
+set x2range [ * : * ] noreverse writeback
+set yrange [ 1e5 : 1e7 ] noreverse nowriteback
+set y2range [ * : * ] noreverse writeback
+set zrange [ * : * ] noreverse writeback
+set cblabel "tpd" 
+set cbrange [ -4000 : 200 ] noreverse nowriteback
+set rrange [ * : * ] noreverse writeback
+set palette rgbformulae -7, 10, -7
+set colorbox vertical origin screen 0.9, 0.2 size screen 0.05, 0.6 front  noinvert bdefault
+NO_ANIMATION = 1
+set xlabel "x_{mol}(CH4)"
+set ylabel "p, Pa"
+plot 'npt.txt' using 1:2:4 with image
